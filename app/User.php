@@ -3,10 +3,10 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
@@ -25,15 +25,52 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password'
     ];
-
+    
     /**
-     * The attributes that should be cast to native types.
+     * Get the identifier that will be stored in the subject claim of the JWT.
      *
-     * @var array
+     * @return mixed
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+    
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+    
+    /**
+     * Override origin method of Illuminate/Database/Eloquent/Concerns/HasTimestamps trait.
+     *
+     * @param  mixed  $value
+     *
+     * @return void
+     */
+    public function setUpdatedAt($value)
+    {
+    }
+    
+    /**
+     * Register new user.
+     *
+     * @param array $attributes (name, email, password)
+     *
+     * @return void
+     */
+    public function registerNewUser(array $attributes)
+    {
+        $this->name = $attributes['name'];
+        $this->email = $attributes['email'];
+        $this->password = bcrypt($attributes['password']);
+        $this->save();
+    }
 }
