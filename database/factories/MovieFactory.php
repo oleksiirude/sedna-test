@@ -2,12 +2,13 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Film;
+use App\Movie;
 use Faker\Generator as Faker;
 
-$factory->define(Film::class, function (Faker $faker) {
+$factory->define(Movie::class, function (Faker $faker) {
     return [
         'title' => $faker->streetName,
+        'summary' => $faker->text(200),
         'prod_year' => $faker->year
     ];
 });

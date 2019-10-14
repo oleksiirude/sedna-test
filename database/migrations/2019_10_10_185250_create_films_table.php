@@ -13,9 +13,10 @@ class CreateFilmsTable extends Migration
      */
     public function up()
     {
-        Schema::create('films', function (Blueprint $table) {
+        Schema::create('movies', function (Blueprint $table) {
             $table->bigInteger('id')->unsigned()->autoIncrement();
             $table->string('title', 100);
+            $table->string('summary', 300);
             $table->smallInteger('prod_year');
             $table->bigInteger('user_id')->unsigned();
             
@@ -31,6 +32,6 @@ class CreateFilmsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('films');
+        Schema::dropIfExists('movies');
     }
 }

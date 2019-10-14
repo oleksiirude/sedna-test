@@ -14,6 +14,8 @@
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');
 
+Route::get('movie/{movie_id}', 'FetchMovieController@getMovie');
+
 Route::group(['middleware' => 'auth.jwt'], function () {
     Route::post('logout', 'AuthController@logout');
 });

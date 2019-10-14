@@ -14,10 +14,10 @@ class CreateFormatsTable extends Migration
     public function up()
     {
         Schema::create('formats', function (Blueprint $table) {
-            $table->bigInteger('film_id')->unsigned();
+            $table->bigInteger('movie_id')->unsigned();
             $table->string('format', 7);
             
-            $table->foreign('film_id')->references('id')->on('films');
+            $table->foreign('movie_id')->references('id')->on('movies');
         });
     }
 
