@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistrationRequest;
 
-class UserController extends Controller
+class AuthController extends Controller
 {
     /**
      * Try to register new user.

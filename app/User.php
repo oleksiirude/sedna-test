@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -68,9 +69,19 @@ class User extends Authenticatable implements JWTSubject
      */
     public function registerNewUser(array $attributes)
     {
-        $this->name = $attributes['name'];
+        $this->name = strtolower($attributes['name']);
         $this->email = $attributes['email'];
         $this->password = bcrypt($attributes['password']);
         $this->save();
+    }
+    
+    /**
+     * Instantiate a new HasMany relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function films()
+    {
+        return $this->hasMany(Film::class);
     }
 }

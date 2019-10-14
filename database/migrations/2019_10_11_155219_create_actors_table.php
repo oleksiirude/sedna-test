@@ -14,7 +14,7 @@ class CreateActorsTable extends Migration
     public function up()
     {
         Schema::create('actors', function (Blueprint $table) {
-            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('id')->unsigned()->autoIncrement();
             $table->string('first_name', 100);
             $table->string('last_name', 100);
         });

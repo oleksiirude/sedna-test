@@ -11,9 +11,9 @@
 |
 */
 
-Route::post('login', 'UserController@login');
-Route::post('register', 'UserController@register');
+Route::post('login', 'AuthController@login');
+Route::post('register', 'AuthController@register');
 
 Route::group(['middleware' => 'auth.jwt'], function () {
-    Route::post('logout', 'UserController@logout');
+    Route::post('logout', 'AuthController@logout');
 });
