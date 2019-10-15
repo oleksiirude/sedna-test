@@ -22,6 +22,6 @@ class Actor extends Model
      */
     public function films()
     {
-        return $this->belongsToMany('App\Movie', 'actor_movie', 'actor_id', 'movie_id');
+        return $this->belongsToMany(Movie::class, 'actor_movie', 'actor_id', 'movie_id');
     }
 }

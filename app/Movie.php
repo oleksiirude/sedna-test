@@ -2,7 +2,9 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Tymon\JWTAuth\Providers\Auth\Illuminate;
 
 class Movie extends Model
 {
@@ -38,7 +40,7 @@ class Movie extends Model
      */
     public function actors()
     {
-        return $this->belongsToMany('App\Actor', 'actor_movie', 'movie_id', 'actor_id');
+        return $this->belongsToMany(Actor::class, 'actor_movie', 'movie_id', 'actor_id');
     }
     
     /**
@@ -50,4 +52,27 @@ class Movie extends Model
     {
         return $this->hasMany(Format::class);
     }
+    
+    /**
+     * Get movie by id.
+     *
+     * @param int $movieId
+     *
+     * @return self
+     */
+    public function getMovie($movieId)
+    {
+        return self::findOrFail($movieId);
+    }
+    
+    /**
+     * Get all of the models from the database.
+     *
+     * @return Collection
+     */
+    public function getAllMovies()
+    {
+        return self::all('id', 'title');
+    }
+    
 }

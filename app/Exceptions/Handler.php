@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Handler extends ExceptionHandler
 {
@@ -46,21 +47,21 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Exception $e)
     {
-        if ($exception instanceof NotFoundHttpException) {
+        if ($e instanceof NotFoundHttpException || $e instanceof ModelNotFoundException) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Resource not found',
                 ], 404);
         }
-        else if ($exception instanceof UnauthorizedHttpException) {
+        else if ($e instanceof UnauthorizedHttpException) {
             return response()->json([
                 'status' => false,
                 'message' => 'Unauthorized',
             ], 401);
         }
                 
-        return parent::render($request, $exception);
+        return parent::render($request, $e);
     }
 }
