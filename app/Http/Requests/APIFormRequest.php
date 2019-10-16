@@ -20,7 +20,7 @@ class APIFormRequest extends FormRequest
         $jsonResponse = response()->json([
             'success' => false,
             'errors' => $validator->errors()
-        ], 422);
+        ], 400);
         
         throw new HttpResponseException($jsonResponse);
     }

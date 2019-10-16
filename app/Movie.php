@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Tymon\JWTAuth\Providers\Auth\Illuminate;
 
 class Movie extends Model
 {
@@ -75,4 +74,25 @@ class Movie extends Model
         return self::all('id', 'title');
     }
     
+    /**
+     * Search movie by title.
+     *
+     * @param string $title
+     *
+     * @return Movie|null
+     */
+    public function searchMovieByTitle(string $title)
+    {
+        $movie = $this->where('title', 'like', "%$title%")->first();
+        
+        return $movie ? $movie : null;
+    }
+    
+    public function getMovieOwnerId($movieId)
+    {
+        $movie = $this->where('id', '=', $movieId)->first();
+        $movie->makeVisible('user_id');
+        
+        return $movie->user_id;
+    }
 }

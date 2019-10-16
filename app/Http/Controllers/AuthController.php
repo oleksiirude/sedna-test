@@ -20,9 +20,7 @@ class AuthController extends Controller
     {
         (new User())->registerNewUser($request->all());
         
-        return response()->json([
-            'success' => true
-        ], 200);
+        return ResponseController::responseSuccess("You have been successfully registered");
     }
     
     /**
@@ -39,7 +37,7 @@ class AuthController extends Controller
         if (!$token = auth()->attempt($credentials)) {
             return response()->json([
                 'success' => false,
-                'error' => 'Unauthorized'
+                'message' => 'Unauthorized'
             ], 401);
         }
         
@@ -58,10 +56,7 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->logout();
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Successfully logged out'
-        ], 200);
+    
+        return ResponseController::responseSuccess("You have been successfully logged out");
     }
 }

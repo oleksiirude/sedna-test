@@ -3,15 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Movie;
+use App\Http\Requests\MovieRequest;
 
 class FetchMovieController extends Controller
 {
-    private $model;
+    /**
+     * @var Movie
+     */
+    protected $model;
     
     /**
      * Create a new FetchMovieController object.
      *
-     * @param  Movie
+     * @param Movie $model
+     *
      * @return void
      */
     public function __construct(Movie $model)
@@ -22,11 +27,13 @@ class FetchMovieController extends Controller
     /**
      * Get movie by id.
      *
+     * @param MovieRequest $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getMovie($movieId)
+    public function getMovie(MovieRequest $request)
     {
-        $movie = $this->model->getMovie($movieId);
+        $movie = $this->model->getMovie($request->get('id'));
         
         return response()->json([
             'success' => true,
@@ -34,7 +41,7 @@ class FetchMovieController extends Controller
             'title' => $movie->title,
             'summary' => $movie->summary,
             'actors' => $movie->actors,
-            'available_formats' => $movie->formats
+            'available_formats' => $this->getFormatsAsArray($movie)
         ], 200);
     }
     
@@ -52,5 +59,20 @@ class FetchMovieController extends Controller
             'movies_count' => count($movies),
             'movies' => $movies
         ], 200);
+    }
+    
+    /**
+     * Group and cast objects to one array.
+     *
+     * @param Movie $movie
+     *
+     * @return array
+     */
+    private function getFormatsAsArray(Movie $movie)
+    {
+        foreach ($movie->formats as $format)
+            $formats[] = $format->format;
+        
+        return $formats;
     }
 }
