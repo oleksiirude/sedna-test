@@ -115,5 +115,11 @@ request body: movie_id, format (VHS, Blu-Ray, DVD)
 info: logout user (invalidate JWT Token)
 request body: none
 </pre>
+
+#### *
+<pre>
+Only content's creator and authenticated user can delete or change data
+</pre>
+
 Enjoy :)
 
