@@ -1,6 +1,6 @@
 # Test task for SEDNA.software
 
-## Server-side app for storing and viewing film data (REST API)
+## Server-side app for storing and recieving film data (REST API)
 
 ### Technologies used:
 <pre>
