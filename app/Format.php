@@ -24,5 +24,40 @@ class Format extends Model
         'movie_id'
     ];
     
+    /**
+     * Disable timestamps.
+     *
+     * @var boolean
+     */
     public $timestamps = false;
+    
+    /**
+     * Delete format.
+     *
+     * @param array $params
+     *
+     * @return boolean
+     */
+    public function deleteFormat(array $params)
+    {
+        return (boolean) $this->where([
+            'movie_id' => $params['movie_id'],
+            'format' => $params['format']
+        ])->delete();
+    }
+    
+    /**
+     * Create format.
+     *
+     * @param array $params
+     *
+     * @return void
+     */
+    public function createFormat(array $params)
+    {
+        $this->firstOrCreate([
+            'movie_id' => $params['movie_id'],
+            'format' => $params['format']
+        ]);
+    }
 }

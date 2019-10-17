@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Movie;
 
 use App\Movie;
+use Validator;
+use App\Http\Controllers\Response\FailureResponseController;
 use App\Http\Controllers\Response\SuccessResponseController;
 
 class FetchMovieController extends MovieController
@@ -14,8 +16,14 @@ class FetchMovieController extends MovieController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getMovie(int $movieId)
+    public function getMovie($movieId)
     {
+        $validator = Validator::make(['movie_id' => $movieId], [
+            'movie_id' => 'required|integer'
+        ]);
+        if ($validator->fails())
+            return FailureResponseController::failure($validator->errors()->first(), 400);
+        
         $movie = $this->model->getMovie($movieId);
         $movie->formats = $this->getFormatsAsArray($movie);
         

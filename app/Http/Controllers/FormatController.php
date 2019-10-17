@@ -35,10 +35,7 @@ class FormatController extends Controller
      */
     public function delete(FormatRequest $request)
     {
-        $result = $this->model->where([
-            'movie_id' => $request->get('movie_id'),
-            'format' => $request->get('format')
-        ])->delete();
+        $result = $this->model->deleteFormat($request->all());
         
         return $result ?
             SuccessResponseController::success('Format deleted', 200)
@@ -54,10 +51,7 @@ class FormatController extends Controller
      */
     public function create(FormatRequest $request)
     {
-        $this->model->firstOrCreate([
-            'movie_id' => $request->get('movie_id'),
-            'format' => $request->get('format')
-        ]);
+        $this->model->createFormat($request->all());
         
         return SuccessResponseController::success('Format added', 201);
     }

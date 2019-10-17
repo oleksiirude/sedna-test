@@ -17,7 +17,7 @@ class DeleteMovieController extends MovieController
     public function delete(Request $request)
     {
         $movieId = $request->get('movie_id');
-        $this->model->where('id', '=', $movieId)->delete();
+        $this->model->deleteMovie($movieId);
         
         return SuccessResponseController::success('Movie has been deleted');
     }

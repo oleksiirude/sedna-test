@@ -25,9 +25,9 @@ Route::group(['middleware' => 'auth.jwt'], function () {
         Route::patch('movies/summary', 'Movie\ChangeMovieController@changeSummary');
         Route::patch('movies/prod_year', 'Movie\ChangeMovieController@changeProductionYear');
         Route::delete('movies', 'Movie\DeleteMovieController@delete');
-        Route::patch('movies/actors', 'ActorController@create');
+        Route::post('movies/actors', 'ActorController@create');
         Route::delete('movies/actors', 'ActorController@delete');
-        Route::patch('movies/formats', 'FormatController@create');
+        Route::post('movies/formats', 'FormatController@create');
         Route::delete('movies/formats', 'FormatController@delete');
     });
     Route::post('logout', 'AuthController@logout');

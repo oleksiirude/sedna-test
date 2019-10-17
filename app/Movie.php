@@ -92,4 +92,98 @@ class Movie extends Model
         
         return $movie ? $movie->user_id : null;
     }
+    
+    /**
+     * Create new movie.
+     *
+     * @param array $params
+     * @param int $userId
+     *
+     * @return void
+     */
+    public function createNewMovie(array $params, int $userId)
+    {
+        $this->create([
+            'title' => $params['title'],
+            'summary' => $params['summary'],
+            'prod_year' => $params['prod_year'],
+            'user_id' => $userId
+        ]);
+    }
+    
+    /**
+     * Delete movie.
+     *
+     * @param int $movieId
+     *
+     * @return void
+     */
+    public function deleteMovie(int $movieId)
+    {
+        $this->where('id', '=', $movieId)->delete();
+    }
+    
+    /**
+     * Check if movie already exists.
+     *
+     * @param array $params
+     *
+     * @return boolean
+     */
+    public function checkIfExists(array $params)
+    {
+        return (boolean) $this->where([
+            'title' => $params['title'],
+            'summary' => $params['summary'],
+            'prod_year' => $params['prod_year'],
+        ])->first();
+    }
+    
+    /**
+     * Change movie's title.
+     *
+     * @param array $params
+     *
+     * @return void
+     */
+    public function changeTitle(array $params)
+    {
+        $this->where([
+            'id' => $params['movie_id']
+        ])->update([
+            'title' => $params['title']
+        ]);
+    }
+    
+    /**
+     * Change movie's summary.
+     *
+     * @param array $params
+     *
+     * @return void
+     */
+    public function changeSummary(array $params)
+    {
+        $this->where([
+            'id' => $params['movie_id']
+        ])->update([
+            'summary' => $params['summary']
+        ]);
+    }
+    
+    /**
+     * Change movie's production year.
+     *
+     * @param array $params
+     *
+     * @return void
+     */
+    public function changeProductionYear(array $params)
+    {
+        $this->where([
+            'id' => $params['movie_id']
+        ])->update([
+            'prod_year' => $params['prod_year']
+        ]);
+    }
 }

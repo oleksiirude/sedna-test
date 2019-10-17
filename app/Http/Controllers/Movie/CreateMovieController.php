@@ -39,16 +39,13 @@ class CreateMovieController extends MovieController
     public function create(CreateMovieRequest $request)
     {
         $params = $request->all();
+        $userId = $this->parser->getIdFromToken($request->bearerToken());
         
         if (!$this->checkIfExists($params)) {
-            $this->model->create([
-                'title' => $params['title'],
-                'summary' => $params['summary'],
-                'prod_year' => $params['prod_year'],
-                'user_id' => $this->parser->getIdFromToken($request->bearerToken())
-            ]);
+            $this->model->createNewMovie($request->all(), $userId);
             return SuccessResponseController::success('Movie created', 201);
         }
+        
         return FailureResponseController::failure('This movie already exists', 404);
     }
     
@@ -61,11 +58,7 @@ class CreateMovieController extends MovieController
      */
     protected function checkIfExists(array $params)
     {
-        $existence = $this->model->where([
-            'title' => $params['title'],
-            'summary' => $params['summary'],
-            'prod_year' => $params['prod_year'],
-        ])->first();
+        $existence = $this->model->checkIfExists($params);
        
         return $existence ? true : false;
     }
