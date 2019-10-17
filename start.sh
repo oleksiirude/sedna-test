@@ -1,5 +1,5 @@
 #!/bin/sh
-php composer update;
+copmoser update;
 php artisan migrate:fresh;
 php artisan db:seed;
-php arisan jwt:secret
+php artisan jwt:secret
