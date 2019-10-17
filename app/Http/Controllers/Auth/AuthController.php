@@ -6,6 +6,8 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistrationRequest;
+use App\Http\Controllers\Response\SuccessResponseController;
+use App\Http\Controllers\Response\FailureResponseController;
 
 class AuthController extends Controller
 {
@@ -20,7 +22,7 @@ class AuthController extends Controller
     {
         (new User())->registerNewUser($request->all());
         
-        return ResponseController::responseSuccess("You have been successfully registered");
+        return SuccessResponseController::success('You have been successfully registered');
     }
     
     /**
@@ -34,18 +36,9 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
         
-        if (!$token = auth()->attempt($credentials)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Unauthorized'
-            ], 401);
-        }
-        
-        return response()->json([
-            'success' => true,
-            'access_token' => $token,
-            'expires_in' => auth()->factory()->getTTL() * (int) config('jwt.ttl')
-        ], 200);
+        if (!$token = auth()->attempt($credentials))
+            return FailureResponseController::failure("We don't have user with these credentials", 401);
+        return SuccessResponseController::withToken($token);
     }
     
     /**
@@ -57,6 +50,6 @@ class AuthController extends Controller
     {
         auth()->logout();
     
-        return ResponseController::responseSuccess("You have been successfully logged out");
+        return SuccessResponseController::success('You have been successfully registered');
     }
 }

@@ -24,7 +24,7 @@ class RegistrationRequest extends APIFormRequest
         return [
             'login' => 'required|string|min:2|max:100',
             'email' => 'required|email|unique:users||min:5|max:100',
-            'password' => 'required|string|min:6|max:10',
+            'password' => 'required|string|min:6|max:40',
             'password_confirm' => 'required|same:password'
         ];
     }

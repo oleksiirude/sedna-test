@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         })->toArray();
         App\Movie::insert($movies);
     
-        $actors = factory(App\Actor::class, $this->actorsNb)->make()->toArray();;
+        $actors = factory(App\Actor::class, $this->actorsNb)->make()->toArray();
         App\Actor::insert($actors);
         
         $formats = $this->makeDataForFormatTable();

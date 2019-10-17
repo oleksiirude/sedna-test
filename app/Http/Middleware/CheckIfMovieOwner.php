@@ -2,10 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Controllers\ResponseController;
 use App\Movie;
 use Closure;
+use Validator;
 use Lcobucci\JWT\Parser;
+use App\Http\Controllers\Response\FailureResponseController;
 
 class CheckIfMovieOwner
 {
@@ -18,12 +19,19 @@ class CheckIfMovieOwner
      */
     public function handle($request, Closure $next)
     {
-        $token = $request->bearerToken();
-        $tokenUserId = ((new Parser)->parse($token))->getClaim('sub');
-        $movieOwnerId = (new Movie)->getMovieOwnerId($request->get('id'));
-     
-        if ($tokenUserId !== $movieOwnerId)
-            return ResponseController::responseForbidden();
+        $validator = Validator::make($request->all(), [
+            'movie_id' => 'required|integer'
+        ]);
+        if ($validator->fails())
+            return FailureResponseController::failure($validator->errors()->first(), 400);
+        
+        $movieOwnerId = (new Movie)->getMovieOwnerId($request->get('movie_id'));
+        $tokenUserId = ((new Parser)->parse($request->bearerToken()))->getClaim('sub');
+        
+        if (!$movieOwnerId)
+            return FailureResponseController::failure('Empty set', 404);
+        else if ($tokenUserId !== $movieOwnerId)
+            return FailureResponseController::failure('Forbidden', 403);
         
         return $next($request);
     }

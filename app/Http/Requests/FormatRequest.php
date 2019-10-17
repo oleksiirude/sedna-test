@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class MovieRequest extends APIFormRequest
+class FormatRequest extends APIFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,19 +13,7 @@ class MovieRequest extends APIFormRequest
     {
         return true;
     }
-    
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'id.regex' => 'Must be a positive integer value and not zero',
-        ];
-    }
-    
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -34,7 +22,7 @@ class MovieRequest extends APIFormRequest
     public function rules()
     {
         return [
-            'id' => 'required|regex:/^[1-9]\d*$/'
+            'format' => ['required', 'regex:/^(VHS|Blu-Ray|DVD)$/i']
         ];
     }
 }

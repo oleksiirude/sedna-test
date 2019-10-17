@@ -13,12 +13,20 @@
 
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');
-Route::post('logout', 'AuthController@logout')->middleware('auth.jwt');
 
 Route::get('movies', 'FetchMovieController@getMovies');
-Route::get('movies/movie', 'FetchMovieController@getMovie');
 Route::get('movies/search', 'SearchMovieController@search');
+Route::get('movies/{movieId}', 'FetchMovieController@getMovie');
 
-Route::group(['middleware' => ['auth.jwt', 'owner']], function () {
-    Route::delete('movies/movie', 'DeleteMovieController@delete');
+Route::group(['middleware' => 'auth.jwt'], function () {
+    Route::post('movies', 'AddMovieController@create');
+    Route::group(['middleware' => 'owner'], function () {
+        Route::patch('movies', 'ChangeMovieController@change');
+        Route::delete('movies', 'DeleteMovieController@delete');
+        Route::patch('movies/actors', 'ActorController@create');
+        Route::delete('movies/actors', 'ActorController@delete');
+        Route::patch('movies/formats', 'FormatController@create');
+        Route::delete('movies/formats', 'FormatController@delete');
+    });
+    Route::post('logout', 'AuthController@logout');
 });

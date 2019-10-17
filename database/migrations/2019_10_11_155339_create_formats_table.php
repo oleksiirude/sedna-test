@@ -17,7 +17,7 @@ class CreateFormatsTable extends Migration
             $table->bigInteger('movie_id')->unsigned();
             $table->string('format', 7);
             
-            $table->foreign('movie_id')->references('id')->on('movies');
+            $table->foreign('movie_id')->references('id')->on('movies')->onDelete('cascade');
         });
     }
 

@@ -17,15 +17,6 @@ class Movie extends Model
     ];
     
     /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'user_id'
-    ];
-    
-    /**
      * Disable time stamps.
      *
      * @var boolean
@@ -57,9 +48,9 @@ class Movie extends Model
      *
      * @param int $movieId
      *
-     * @return self
+     * @return Movie
      */
-    public function getMovie($movieId)
+    public function getMovie(int $movieId)
     {
         return self::findOrFail($movieId);
     }
@@ -88,11 +79,17 @@ class Movie extends Model
         return $movie ? $movie : null;
     }
     
-    public function getMovieOwnerId($movieId)
+    /**
+     * Get movie owner id.
+     *
+     * @param int $movieId
+     *
+     * @return int
+     */
+    public function getMovieOwnerId(int $movieId)
     {
         $movie = $this->where('id', '=', $movieId)->first();
-        $movie->makeVisible('user_id');
         
-        return $movie->user_id;
+        return $movie ? $movie->user_id : null;
     }
 }

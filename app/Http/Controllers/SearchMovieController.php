@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Actor;
+use App\Http\Controllers\Response\FailureResponseController;
+use App\Http\Controllers\Response\SuccessResponseController;
 use App\Movie;
 use App\Http\Requests\SearchRequest;
 
@@ -36,8 +38,8 @@ class SearchMovieController extends Controller
         $movie = (new Movie())->searchMovieByTitle($title);
     
         return $movie ?
-            ResponseController::responseWithMovieData($movie)
-            : ResponseController::responseWithEmptySet();
+            SuccessResponseController::withShortMovieData($movie)
+            : FailureResponseController::failure('Empty set', 404);
     }
     
     /**
@@ -52,8 +54,8 @@ class SearchMovieController extends Controller
         $movie = (new Actor())->searchMovieByActorName($name);
         
         return $movie ?
-            ResponseController::responseWithMovieData($movie)
-            : ResponseController::responseWithEmptySet();
+            SuccessResponseController::withShortMovieData($movie)
+            : FailureResponseController::failure('Empty set', 404);
             
     }
 }

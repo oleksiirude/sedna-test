@@ -22,8 +22,8 @@ class LoginRequest extends APIFormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|min:5|max:20',
-            'password' => 'required|string|min:6|max:10'
+            'email' => 'required|email|min:5|max:100',
+            'password' => 'required|string|min:6|max:40'
         ];
     }
 }
