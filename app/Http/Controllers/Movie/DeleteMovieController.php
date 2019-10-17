@@ -1,30 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Movie;
 
-use App\Movie;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Response\SuccessResponseController;
 
-class DeleteMovieController extends Controller
+class DeleteMovieController extends MovieController
 {
-    /**
-     * @var Movie $model
-     */
-    protected $model;
-    
-    /**
-     * Create a new DeleteMovieController object.
-     *
-     * @param Movie $model
-     *
-     * @return void
-     */
-    public function __construct(Movie $movie)
-    {
-        $this->model = $movie;
-    }
-    
     /**
      * Delete movie.
      *

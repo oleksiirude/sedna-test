@@ -1,29 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Movie;
 
 use App\Movie;
 use App\Http\Controllers\Response\SuccessResponseController;
 
-class FetchMovieController extends Controller
+class FetchMovieController extends MovieController
 {
-    /**
-     * @var Movie $model
-     */
-    protected $model;
-    
-    /**
-     * Create a new FetchMovieController object.
-     *
-     * @param Movie $model
-     *
-     * @return void
-     */
-    public function __construct(Movie $model)
-    {
-        $this->model = $model;
-    }
-    
     /**
      * Get movie by id.
      *
@@ -63,6 +46,6 @@ class FetchMovieController extends Controller
         foreach ($movie->formats as $format)
             $formats[] = $format->format;
         
-        return $formats;
+        return isset($formats) ? $formats : null;
     }
 }

@@ -6,6 +6,7 @@ use App\Movie;
 use Closure;
 use Validator;
 use Lcobucci\JWT\Parser;
+use App\Http\Controllers\TokenParseController;
 use App\Http\Controllers\Response\FailureResponseController;
 
 class CheckIfMovieOwner
@@ -24,12 +25,13 @@ class CheckIfMovieOwner
         ]);
         if ($validator->fails())
             return FailureResponseController::failure($validator->errors()->first(), 400);
-        
+    
+        $parser = new TokenParseController(new Parser());
+        $tokenUserId = $parser->getIdFromToken($request->bearerToken());
         $movieOwnerId = (new Movie)->getMovieOwnerId($request->get('movie_id'));
-        $tokenUserId = ((new Parser)->parse($request->bearerToken()))->getClaim('sub');
         
         if (!$movieOwnerId)
-            return FailureResponseController::failure('Empty set', 404);
+            return FailureResponseController::failure('Resource not found', 404);
         else if ($tokenUserId !== $movieOwnerId)
             return FailureResponseController::failure('Forbidden', 403);
         

@@ -14,15 +14,17 @@
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');
 
-Route::get('movies', 'FetchMovieController@getMovies');
-Route::get('movies/search', 'SearchMovieController@search');
-Route::get('movies/{movieId}', 'FetchMovieController@getMovie');
+Route::get('movies', 'Movie\FetchMovieController@getMovies');
+Route::get('movies/search', 'Movie\SearchMovieController@search');
+Route::get('movies/{movieId}', 'Movie\FetchMovieController@getMovie');
 
 Route::group(['middleware' => 'auth.jwt'], function () {
-    Route::post('movies', 'AddMovieController@create');
+    Route::post('movies', 'Movie\CreateMovieController@create');
     Route::group(['middleware' => 'owner'], function () {
-        Route::patch('movies', 'ChangeMovieController@change');
-        Route::delete('movies', 'DeleteMovieController@delete');
+        Route::patch('movies/title', 'Movie\ChangeMovieController@changeTitle');
+        Route::patch('movies/summary', 'Movie\ChangeMovieController@changeSummary');
+        Route::patch('movies/prod_year', 'Movie\ChangeMovieController@changeProductionYear');
+        Route::delete('movies', 'Movie\DeleteMovieController@delete');
         Route::patch('movies/actors', 'ActorController@create');
         Route::delete('movies/actors', 'ActorController@delete');
         Route::patch('movies/formats', 'FormatController@create');

@@ -16,8 +16,8 @@ class CreateMoviesTable extends Migration
         Schema::create('movies', function (Blueprint $table) {
             $table->bigInteger('id')->unsigned()->autoIncrement();
             $table->string('title', 100);
-            $table->string('summary', 300);
-            $table->smallInteger('prod_year');
+            $table->string('summary', 300)->nullable();
+            $table->smallInteger('prod_year')->nullable();
             $table->bigInteger('user_id')->unsigned();
             
             $table->foreign('user_id')->references('id')->on('users');

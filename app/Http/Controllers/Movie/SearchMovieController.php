@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Movie;
 
 use App\Actor;
+use App\Http\Requests\SearchRequest;
 use App\Http\Controllers\Response\FailureResponseController;
 use App\Http\Controllers\Response\SuccessResponseController;
-use App\Movie;
-use App\Http\Requests\SearchRequest;
 
-class SearchMovieController extends Controller
+class SearchMovieController extends MovieController
 {
     /**
      * Manage movie search by name or title.
@@ -35,7 +34,7 @@ class SearchMovieController extends Controller
      */
     private function searchMovieByTitle(string $title)
     {
-        $movie = (new Movie())->searchMovieByTitle($title);
+        $movie = $this->model->searchMovieByTitle($title);
     
         return $movie ?
             SuccessResponseController::withShortMovieData($movie)
