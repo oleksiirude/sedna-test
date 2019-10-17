@@ -4,6 +4,7 @@
 
 ### Technologies used:
 <pre>
+- PHP 7.3.2
 - Laravel 6.0
 - MySQL 8.0.15
 </pre>
