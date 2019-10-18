@@ -1,6 +1,6 @@
 # Test task for SEDNA.software
 
-## Server-side app for storing and recieving film data (REST API)
+## Server-side app for storing and receiving movies data (REST API)
 
 ### Technologies used:
 <pre>
@@ -13,9 +13,9 @@
 <pre>
 - clone this repo;
 - install composer (globally);
-- rename .env.example to .env and fill data about your DB into it;
+- rename .env.example to .env and fill DB info into it;
 - create database "sednatestdb" on your MySQL server;
-- launch next commands from the root of project in terminal:
+- launch next commands from the root of the project:
     1. php composer update;
     2. php artisan migrate:fresh;
     3. php artisan db:seed;
@@ -24,7 +24,7 @@ If you are using OSX or other UNIX-like OS just launch bash script "start.sh"
 </pre>
 
 ### Endpoints usage:
-All endponints except login, register and GET methods require header "Authorization" "Bearer [JWT Token]"
+All endponints except login, register and with GET methods require header "Authorization" "Bearer [JWT Token]"
 
 #### POST /login
 <pre>
@@ -118,8 +118,5 @@ request body: none
 
 #### *
 <pre>
-Only content's creator and authenticated user can delete or change data
+Only content creator and authenticated user can delete or change data
 </pre>
-
-Enjoy :)
-
